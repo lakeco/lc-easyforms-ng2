@@ -1,0 +1,62 @@
+﻿<div [formGroup]="form" [ngClass]="element.classes?.group">
+    <label *ngIf="element.label"
+           [ngClass]="element.classes?.label"
+           [attr.for]="element.key">
+        {{element.label}}
+    </label>
+    <div [ngSwitch]="element.type">
+        <select *ngSwitchCase="'dropdown'"
+                [formControlName]="element.key"
+                (ngModelChange)="onValueChange($event)"
+                [ngClass]="element.classes?.element"
+                [id]="element.key">
+            <option *ngFor="let o of element.options" [value]="o.value">{{o.name ? o.name : o.value}}</option>
+        </select>
+
+        <div *ngSwitchCase="'checkbox'" [ngClass]="element.classes?.element">
+            <div class="checkbox" *ngFor="let o of element.options">
+                <input [type]="element.type"
+                       [formControlName]="element.key"
+                       [name]="element.key"
+                       [value]="o.value"
+                       [checked]="isSelectActive(o)"
+                       (change)="chackboxValueChange()"
+                       [disabled]="o.disabled"
+                       (click)="setCheckbox(o)">
+                <span>{{o.name ? o.name : o.value}}</span>
+            </div>
+        </div>
+
+        <textarea *ngSwitchCase="'textarea'"
+            [formControlName]="element.key"
+            (ngModelChange)="onValueChange($event)"
+            [id]="element.key"
+            [attr.placeholder]="element.placeholder"
+            [attr.rows]="element.rows"
+            [ngClass]="element.classes?.element"></textarea>
+
+        <div *ngSwitchCase="'radio'" [ngClass]="element.classes?.element">
+            <div class="radio" *ngFor="let o of element.options">
+                <input [type]="element.type"
+                       [formControlName]="element.key"
+                       [name]="element.key"
+                       [value]="o.value"
+                       [checked]="element.value === o.value"
+                       (click)="setRadio(o)">
+                <span>{{o.name ? o.name : o.value}}</span>
+            </div>
+        </div>
+
+        <input *ngSwitchDefault
+               [formControlName]="element.key"
+               [attr.placeholder]="element.placeholder"
+               [type]="element.type"
+               (ngModelChange)="onValueChange($event)"
+               [ngClass]="element.classes?.element"
+               [id]="element.key">
+    </div>
+
+    <div *ngIf="settings.showValidation" [hidden]="showErrorMsg">
+        <span *ngFor="let e of errors()" [ngClass]="element.classes?.error">{{e}}</span>
+    </div>
+</div>

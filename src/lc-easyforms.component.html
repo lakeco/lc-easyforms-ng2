@@ -1,0 +1,12 @@
+﻿<form [formGroup]="comp.form" [ngClass]="comp.data.classes?.form">
+    <lc-element *ngFor="let e of comp.data.elements" [info]="{element: e, form: comp.form, settings: comp.settings, classes: comp.data.classes}" (valueChange)="onElementValueChange($event)"></lc-element>
+    <div class="row">
+        <div *ngIf="comp.data.settings.submitButton" [ngClass]="comp.data.classes?.submit">
+            <button type="submit" [disabled]="!comp.form.valid && comp.settings.extraValidation" [ngClass]="comp.data.classes?.submitButton">{{comp.data.settings.submitButtonText}}</button>
+        </div>
+        <div *ngIf="comp.data.settings.noteText" [ngClass]="comp.data.classes.note">
+            <span *ngIf="comp.data.settings.noteLabel" [ngClass]="comp.data.classes.noteLabel">{{comp.data.settings.noteLabel}}</span>&nbsp;
+            {{comp.data.settings.noteText}}
+        </div>
+    </div>
+</form>
