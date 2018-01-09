@@ -1,27 +1,27 @@
-﻿import { Injectable } from '@angular/core'
+﻿import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LCElement, Validation } from './lc-easyforms.interface';
+import { LCElement, Validation } from './lc-forms.interface';
 import { LCCustomValidators } from './lc-custom-validators.class';
 
 @Injectable()
 export class LCFormService {
     create(elements: LCElement[]): any {
-        let temp = {},
+        const temp = {},
             toReturn = {},
-            matches:any[] = [];
+            matches: any[] = [];
 
         elements.forEach(e => {
-            let val = e.value || '',
-                validators = null;
+            const val = e.value || '';
+            let validators = null;
 
             if (e.validation) {
 
                 if (Array.isArray(e.validation)) {
                     validators = [];
                     e.validation.forEach(i => validators.push(setValidator(i, e)));
+                } else {
+                    validators = setValidator(e.validation);
                 }
-
-                else validators = setValidator(e.validation)
             }
 
             temp[e.key] = new FormControl(val, validators);
@@ -30,7 +30,7 @@ export class LCFormService {
         toReturn['fbGroup'] = new FormGroup(temp);
 
         // Add matches for watching if required
-        if (matches.length) toReturn['matches'] = matches;
+        if (matches.length) { toReturn['matches'] = matches; }
 
         return toReturn;
 

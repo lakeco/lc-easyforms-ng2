@@ -1,7 +1,6 @@
-# LC EasyForms for Angular 2 Universal
-Is a library for simplified creation and validation of forms in Angular 2 Universal.
 
-The library is inspired by [angular.io dynamic forms](https://angular.io/docs/ts/latest/cookbook/dynamic-form.html) and derived from [Easy Angular 2 Forms](https://github.com/lakeco/lc-easyforms-ng2).
+# lc-forms <sub><i>by @LakeCodes</i></sub>
+Is a library for simplified object-based creation and validation of forms in Angular/Angular Universal. The library is inspired by [angular.io dynamic forms](https://angular.io/docs/ts/latest/cookbook/dynamic-form.html) and [Filip Lauc's](https://github.com/flauc) [angular2-easy-forms](https://www.npmjs.com/package/angular2-easy-forms).
 
 ## Documentation 
 1. [Setup](#setup)
@@ -13,16 +12,16 @@ The library is inspired by [angular.io dynamic forms](https://angular.io/docs/ts
 ## Setup
 You can install the library from npm with the following command: 
 ```
-npm install --save lc-easyforms-ng2
+npm install --save lc-forms
 ```
 
-Import the `LCEasyFormsModule` in your `app.module`. You also need to have the `FormsModule` imported for the library to work. 
+Import the `LCFormsModule` into `app.module` or parent module. 
 
 ```typescript
 @NgModule({
     imports: [
         BrowserModule,
-        LCEasyFormsModule
+        LCFormsModule
     ],
     providers: [],
     declarations: [AppComponent],
@@ -31,7 +30,8 @@ Import the `LCEasyFormsModule` in your `app.module`. You also need to have the `
 export class AppModule {}
 ```
 
-Then you define a list of elements as well as a settings and classes object if required and pass it to the component.
+## Usage
+Define a list of elements as well as a settings and classes object if required and pass it to the component.
 
 ```typescript
 @Component({
@@ -43,7 +43,7 @@ Then you define a list of elements as well as a settings and classes object if r
 export class AppComponent {
     constructor() {}
 
-    public data = {
+    public data = { // form object and configuration
         settings: {
             submitButtonText: 'Send',
         },
@@ -124,17 +124,6 @@ export class AppComponent {
         console.log(event)
     }
 }
-```
-
-You can find an example of the setup in the example folder.
-
-### System.js
-
-If you are using `system.js` you also need to declare the library in your system.js config before you can use it. 
-
-```js
-var map = { 'lc-easyforms-ng2': 'node_modules/lc-easyforms-ng2' },
-var packages = { 'lc-easyforms-ng2': {main: 'components.js', defaultExtension: 'js'} }
 ```
 
 ## Elements
@@ -251,6 +240,3 @@ classes: {
     submit: string | string[]
 }
 ```
-
-
-

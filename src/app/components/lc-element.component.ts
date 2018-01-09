@@ -1,10 +1,11 @@
-﻿import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core'
+﻿import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { LCElement } from './lc-easyforms.interface';
+import { LCElement } from './lc-forms.interface';
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'lc-element',
-    template: require('./lc-element.component.html')
+    templateUrl: './lc-element.component.html'
 })
 
 export class LCElementComponent {
@@ -26,8 +27,9 @@ export class LCElementComponent {
         }
 
         if (this.classes.errors) {
-            if (!this.element.classes.error) { this.element.classes.error = this.classes.errors; }
-            else { this.element.classes.error = this.element.classes.error.concat(this.classes.errors); }
+            if (!this.element.classes.error) { this.element.classes.error = this.classes.errors; } else {
+                this.element.classes.error = this.element.classes.error.concat(this.classes.errors);
+            }
         }
     }
 
@@ -37,24 +39,25 @@ export class LCElementComponent {
     form: FormGroup;
     classes: any;
 
-    private checkboxIsRequired: boolean = false;
+    private checkboxIsRequired = false;
     private settings: any;
 
     get showErrorMsg() {
         return this.settings.errorOnDirty ?
             !this.form.controls[this.element.key].valid && !this.form.controls[this.element.key].dirty :
-            !this.form.controls[this.element.key].valid
+            !this.form.controls[this.element.key].valid;
     }
 
 
     errors() {
         if (this.element.validation && !this.form.controls[this.element.key].valid) {
-            let temp: any = [],
+            const temp: any = [],
                 errors = this.form.controls[this.element.key].errors,
                 errorKeys = Object.keys(errors);
 
-            if (this.settings.singleErrorMessage) temp.push(this._setError(errorKeys[errorKeys.length - 1], errors));
-            else errorKeys.forEach(a => temp.push(this._setError(a, errors)));
+            if (this.settings.singleErrorMessage) {
+                    temp.push(this._setError(errorKeys[errorKeys.length - 1], errors));
+                } else { errorKeys.forEach(a => temp.push(this._setError(a, errors))); }
 
             return temp;
         }
@@ -62,32 +65,34 @@ export class LCElementComponent {
 
     setRadio(option) {
         this.form.controls[this.element.key].setValue(option.value);
-        this.onValueChange(option.value)
+        this.onValueChange(option.value);
     }
 
     setCheckbox(option) {
-        let index = this.element.value.indexOf(option.value);
+        const index = this.element.value.indexOf(option.value);
 
-        if (index !== -1) this.element.value.splice(index, 1);
-        else this.element.value.push(option.value);
+        if (index !== -1) { this.element.value.splice(index, 1); } else { this.element.value.push(option.value); }
 
         this.form.controls[this.element.key].setValue(this.element.value);
-        this.onValueChange(this.element.value)
+        this.onValueChange(this.element.value);
     }
 
     chackboxValueChange() {
         if (this.checkboxIsRequired) {
-            if (this.element.value.length === 1) this.element.options.find(a => a.value === this.element.value[0]).disabled = true;
-            else this.element.options.forEach(a => a.disabled = false)
+            if (this.element.value.length === 1) {
+                this.element.options.find(a => a.value === this.element.value[0]).disabled = true;
+            } else { this.element.options.forEach(a => a.disabled = false); }
         }
     }
 
-    onValueChange(event) { if (this.element.emitChanges !== false) this.valueChange.emit({ [this.element.key]: event }) }
-    isSelectActive(option) { return this.element.value.find(a => a === option.value) ? true : false }
+    onValueChange(event) {
+        if (this.element.emitChanges !== false) { this.valueChange.emit({ [this.element.key]: event }); }
+    }
+    isSelectActive(option) { return this.element.value.find(a => a === option.value) ? true : false; }
 
     private _setError(item, errors) {
-        let errorMsg: string = this.element.validation.find(a => a.type.toLowerCase() === item).message,
-            tag: string = this.element.label || this.element.key;
+        let errorMsg: string = this.element.validation.find(a => a.type.toLowerCase() === item).message;
+        const tag: string = this.element.label || this.element.key;
 
         if (!errorMsg) {
             switch (item) {

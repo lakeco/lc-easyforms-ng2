@@ -21,7 +21,6 @@
                        [value]="o.value"
                        [checked]="isSelectActive(o)"
                        (change)="chackboxValueChange()"
-                       [disabled]="o.disabled"
                        (click)="setCheckbox(o)">
                 <span>{{o.name ? o.name : o.value}}</span>
             </div>
